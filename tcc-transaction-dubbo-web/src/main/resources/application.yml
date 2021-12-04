@@ -1,0 +1,31 @@
+server:
+  port: 8000
+dubbo:
+  application:
+    name: tcc-transaction-dubbo-web
+  registry:
+    address: nacos://192.168.0.10:7008
+  config-center:
+    address: nacos://192.168.0.10:7008
+  metadata-report:
+    address: nacos://192.168.0.10:7008
+  protocol:
+    name: dubbo
+    port: 21284
+# ??freemarker
+spring:
+  freemarker:
+    # ???????
+    suffix: .ftl
+    # ??????
+    content-type: text/html
+    # ????????
+    charset: UTF-8
+    # ??????
+    cache: false
+    # ??ftl????
+    template-loader-path:
+      - classpath:/templates
+  # ?????????js,css?
+  mvc:
+    static-path-pattern: /static/**

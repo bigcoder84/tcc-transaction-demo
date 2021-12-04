@@ -1,0 +1,18 @@
+dubbo:
+  application:
+    name: tcc-transaction-dubbo-order
+  registry:
+    address: nacos://192.168.0.10:7008
+  config-center:
+    address: nacos://192.168.0.10:7008
+  metadata-report:
+    address: nacos://192.168.0.10:7008
+  protocol:
+    name: dubbo
+    port: 22283
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: tianjindong
+    password: tianjindong
+    url: jdbc:mysql://192.168.0.10:3306/tcc-transaction-demo?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
