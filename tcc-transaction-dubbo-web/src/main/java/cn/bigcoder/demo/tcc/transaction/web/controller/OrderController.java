@@ -26,7 +26,7 @@ import java.util.List;
 @Controller
 public class OrderController {
 
-    @DubboReference
+    @DubboReference(timeout = 30000)
     PlaceOrderService placeOrderService;
 
     @DubboReference

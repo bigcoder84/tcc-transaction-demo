@@ -7,6 +7,7 @@ import cn.bigcoder.demo.tcc.transaction.order.entity.Order;
 import cn.bigcoder.demo.tcc.transaction.order.repository.OrderRepository;
 import cn.bigcoder.demo.tcc.trasaction.redpacket.RedPacketTradeOrderService;
 import cn.bigcoder.demo.tcc.trasaction.redpacket.dto.RedPacketTradeOrderDto;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -20,12 +21,13 @@ import java.util.Calendar;
  * Created by changming.xie on 4/1/16.
  */
 @DubboService(timeout = 5000)
+@Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
-    @DubboReference
+    @DubboReference(timeout = 30000)
     CapitalTradeOrderService capitalTradeOrderService;
 
-    @DubboReference
+    @DubboReference(timeout = 30000)
     RedPacketTradeOrderService redPacketTradeOrderService;
 
     @Autowired
@@ -33,17 +35,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Compensable(confirmMethod = "confirmMakePayment", cancelMethod = "cancelMakePayment", asyncConfirm = false)
     public void makePayment(@UniqueIdentity String orderNo) {
-        System.out.println("order try make payment called.time seq:" + DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
-
+        log.info("order try make payment called.time seq:{}", DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
         Order order = orderRepository.findByMerchantOrderNo(orderNo);
-
-        String result = capitalTradeOrderService.record(buildCapitalTradeOrderDto(order));
         String result2 = redPacketTradeOrderService.record(buildRedPacketTradeOrderDto(order));
+        String result = capitalTradeOrderService.record(buildCapitalTradeOrderDto(order));
+        log.info("makePayment capital result:{}, red packet result:{}", result, result2);
     }
 
     public void confirmMakePayment(String orderNo) {
 
-        System.out.println("order confirm make payment called. time seq:" + DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
+        log.info("order confirm make payment called. time seq:{}", DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
 
         Order foundOrder = orderRepository.findByMerchantOrderNo(orderNo);
 
@@ -55,14 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     public void cancelMakePayment(String orderNo) {
-
-        try {
-            Thread.sleep(1000l);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("order cancel make payment called.time seq:" + DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
+        log.info("order cancel make payment called.time seq:{}", DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
 
         Order foundOrder = orderRepository.findByMerchantOrderNo(orderNo);
 
