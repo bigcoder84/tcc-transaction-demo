@@ -16,3 +16,6 @@ spring:
     username: tianjindong
     password: tianjindong
     url: jdbc:mysql://192.168.0.10:3306/tcc-transaction-demo?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+  redis:
+    host: 192.168.0.10
+    port: 7002

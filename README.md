@@ -6,6 +6,6 @@ tcc-transaction-demo是 [tcc-transaction](https://github.com/changmingxie/tcc-tr
 需要注意的是，由于 tcc-transaction 相关jar包未上传至Maven中央仓库，如果需要运行或使用该框架，请前往 [tcc-transaction](https://github.com/changmingxie/tcc-transaction) 下载对应版本源码，将jar包打至本地仓库，或者私服。
 tcc-transaction-dubbo-redpacket
 
-项目间的依赖关系：
+模块间的依赖关系：
 
 ![](./images/1.png)

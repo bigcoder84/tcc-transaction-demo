@@ -54,6 +54,9 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
                 //this exception may happen when insert trade order concurrently, if happened, ignore this insert operation.
             }
         }
+        if (true){
+            throw new RuntimeException("123123123");
+        }
         return "success";
     }
 

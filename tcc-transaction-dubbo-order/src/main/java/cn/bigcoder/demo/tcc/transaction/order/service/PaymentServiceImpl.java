@@ -37,8 +37,8 @@ public class PaymentServiceImpl implements PaymentService {
     public void makePayment(@UniqueIdentity String orderNo) {
         log.info("order try make payment called.time seq:{}", DateFormatUtils.format(Calendar.getInstance(), "yyyy-MM-dd HH:mm:ss"));
         Order order = orderRepository.findByMerchantOrderNo(orderNo);
-        String result2 = redPacketTradeOrderService.record(buildRedPacketTradeOrderDto(order));
         String result = capitalTradeOrderService.record(buildCapitalTradeOrderDto(order));
+        String result2 = redPacketTradeOrderService.record(buildRedPacketTradeOrderDto(order));
         log.info("makePayment capital result:{}, red packet result:{}", result, result2);
     }
 
